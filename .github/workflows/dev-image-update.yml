@@ -11,7 +11,7 @@ jobs:
         uses: fjogeleit/yaml-update-action@master
         with:
           valueFile: 'dev/deployment.yaml'
-          propertyPath: 'spec.template.spec.containers.image.value'
+          propertyPath: 'spec.template.spec.containers.image'
           value: ${{ github.event.client_payload.image }}
           commitChange: true
           updateFile: true
