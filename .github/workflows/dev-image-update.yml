@@ -1,0 +1,22 @@
+name: Repository Dispatch
+on:
+  repository_dispatch:
+    types: [new-image]
+jobs:
+  myEvent:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          ref: $
+      # Runs a single command using the runners shell
+      - name: Update Image Name
+        run: sudo add-apt-repository ppa:rmescandon/yq && sudo apt install yq -y && yq r dev/deployment.yaml "spec.template.spec.containers.image.value" "${{ github.event.client_payload.image }}"
+      
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Image Version Update"
+
+  
+  
