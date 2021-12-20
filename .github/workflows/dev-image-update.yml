@@ -3,15 +3,15 @@ on:
   repository_dispatch:
     types: [new-image]
 jobs:
-  myEvent:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Update deployment.yaml
-        uses: microsoft/variable-substitution@v1 
-        with:
-          files: 'dev/deployment.yaml'
-        env:
-          image: ${{ github.event.client_payload.image }}
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: 'dev/deployment.yaml'
+      env:
+        image: ${{ github.event.client_payload.image }}
 
   
