@@ -1,17 +1,17 @@
 name: Repository Dispatch
 on:
-  repository_dispatch:
-    types: [new-image]
+  workflow_dispatch:
+#on:
+#  repository_dispatch:
+#    types: [new-image]
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/variable-substitution@v1 
+    - name: Update Image Version
+      uses: mikefarah/yq@master
       with:
-        files: 'dev/deployment.yaml'
-      env:
-        image: ${{ github.event.client_payload.image }}
-
+        cmd: yq w dev/deployment.yaml "spec.template.spec.containers[0].image.value" "${{ github.event.client_payload.image }}"
   
