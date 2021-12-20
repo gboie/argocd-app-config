@@ -8,12 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Update deployment.yaml
-        uses: fjogeleit/yaml-update-action@master
+        uses: microsoft/variable-substitution@v1 
         with:
-          valueFile: 'dev/deployment.yaml'
-          propertyPath: 'spec.template.spec.containers.image'
-          value: ${{ github.event.client_payload.image }}
-          commitChange: true
-          updateFile: true
+          files: 'dev/deployment.yaml'
+        env:
+          image: ${{ github.event.client_payload.image }}
 
   
