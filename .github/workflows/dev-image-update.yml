@@ -1,9 +1,8 @@
 name: Repository Dispatch
+
 on:
-  workflow_dispatch:
-#on:
-#  repository_dispatch:
-#    types: [new-image]
+  repository_dispatch:
+    types: [new-image]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +13,7 @@ jobs:
       id: imgupd
       uses: mikefarah/yq@master
       with:
-        cmd: yq eval '.spec.template.spec.containers[0].image = "test"' -i dev/deployment.yaml
+        cmd: yq eval '.spec.template.spec.containers[0].image = "${{ github.event.client_payload.image }}"' -i dev/deployment.yaml
 
     - run: |
         cat dev/deployment.yaml
