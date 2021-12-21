@@ -14,13 +14,13 @@ jobs:
       id: imgupd
       uses: mikefarah/yq@master
       with:
-        cmd: yq eval '.spec.template.spec.containers[0].image = "test"' dev/deployment.yaml
+        cmd: yq eval '.spec.template.spec.containers[0].image = "test"' -i dev/deployment.yaml
 
     - run: |
         cat dev/deployment.yaml
-        echo  "*********************************"
-        echo "${{ steps.imgupd.outputs.result }}"
-        
+        echo "*************************"
+        echo "${{ steps.imgupd.outputs.result }}" > dev/deployment.xml
+
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Apply image name changes
